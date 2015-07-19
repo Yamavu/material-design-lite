@@ -117,7 +117,8 @@ MaterialDataTable.prototype.init = function() {
   if (this.element_) {
 
     var firstHeader = this.element_.querySelector('th');
-    var rows = this.element_.querySelector('tbody').querySelectorAll('tr');
+    var rows_body = this.element_.querySelector('tbody').querySelectorAll('tr');
+    var rows_foot = this.element_.querySelector('tfoot').querySelectorAll('tr');
 
     if (this.element_.classList.contains(this.CssClasses_.SELECTABLE)) {
       var th = document.createElement('th');
@@ -125,12 +126,19 @@ MaterialDataTable.prototype.init = function() {
       th.appendChild(headerCheckbox);
       firstHeader.parentElement.insertBefore(th, firstHeader);
 
-      for (var i = 0; i < rows.length; i++) {
-        var firstCell = rows[i].querySelector('td');
+      for (var i = 0; i < rows_body.length; i++) {
+        var firstCell = rows_body[i].querySelector('td');
         if (firstCell) {
           var td = document.createElement('td');
-          var rowCheckbox = this.createCheckbox_(rows[i]);
+          var rowCheckbox = this.createCheckbox_(rows_body[i]);
           td.appendChild(rowCheckbox);
+          rows[i].insertBefore(td, firstCell);
+        }
+      }
+      for (var i = 0; i < rows_foot.length; i++) {
+        var firstCell = rows_foot[i].querySelector('td');
+        if (firstCell) {
+          var td = document.createElement('td');
           rows[i].insertBefore(td, firstCell);
         }
       }
